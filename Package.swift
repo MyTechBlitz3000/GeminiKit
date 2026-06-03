@@ -1,43 +1,69 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
+
 import PackageDescription
 
 let package = Package(
-    name: "GeminiKit",
+    name: "PersistenceAI",
+
     platforms: [
-        .macOS(.v13),
-        .iOS(.v16),
-        .tvOS(.v16),
-        .watchOS(.v9)
+        .macOS(.v14),
+        .iOS(.v17),
+        .tvOS(.v17),
+        .watchOS(.v10)
     ],
+
     products: [
         .library(
-            name: "GeminiKit",
-            targets: ["GeminiKit"]),
+            name: "PersistenceAI",
+            targets: ["PersistenceAI"]
+        ),
+
         .executable(
-            name: "gemini-cli",
-            targets: ["GeminiCLI"])
+            name: "persistence-cli",
+            targets: ["App"]
+        )
     ],
+
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0")
+        .package(
+            url: "https://github.com/apple/swift-argument-parser",
+            from: "1.3.0"
+        ),
+
+        .package(
+            url: "https://github.com/apple/swift-docc-plugin",
+            from: "1.3.0"
+        )
     ],
+
     targets: [
+
         .target(
-            name: "GeminiKit",
+            name: "PersistenceAI",
             dependencies: [],
-            path: "Sources/GeminiKit"
+            path: "Sources/PersistenceAI"
         ),
-        .testTarget(
-            name: "GeminiKitTests",
-            dependencies: ["GeminiKit"]
-        ),
+
         .executableTarget(
-            name: "GeminiCLI",
+            name: "App",
             dependencies: [
-                "GeminiKit",
-                .product(name: "ArgumentParser", package: "swift-argument-parser")
+                "PersistenceAI",
+
+                .product(
+                    name: "ArgumentParser",
+                    package: "swift-argument-parser"
+                )
             ],
-            path: "Sources/GeminiCLI"
+            path: "Sources/App",
+            swiftSettings: [
+                .enableUpcomingFeature("BareSlashRegexLiterals"),
+                .enableUpcomingFeature("ConciseMagicFile")
+            ]
+        ),
+
+        .testTarget(
+            name: "PersistenceAITests",
+            dependencies: ["PersistenceAI"]
         )
     ]
 )
